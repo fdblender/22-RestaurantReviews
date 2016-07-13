@@ -8,6 +8,7 @@ import javax.persistence.TypedQuery;
 import model.RReview;
 import model.RRestaurant;
 import model.RUser;
+import model.Restaverage;
 
 public class RestaurantDB {
 
@@ -20,19 +21,27 @@ public class RestaurantDB {
 				+ review.getRUser().getName());
 
 		return reviewstr;
-
 	}
+	
+	public static StringBuffer getRestaverageString(Restaverage rest) {
+		StringBuffer rstr = new StringBuffer();
+
+		rstr.append(rest.getRestaurantid()
+				+ "\t" + rest.getName() + "\t" 
+				+ rest.getDescription() + "\t"
+				+ rest.getAvgrating());
+
+		return rstr;
+	}
+	
 
 	public static List<RReview> getReviews() {
-		// System.out.println("getReviews: ");
-
+		
 		EntityManager em = DBUtil.getEmFactory().createEntityManager();
 		List<RReview> reviews = null;
 
 		String qString = "select r from RReview r";
-		// String qString =
-		// "select r.review, r.rating from RReview r JOIN r.restaurantid";
-
+		
 		try {
 			TypedQuery<RReview> query = em.createQuery(qString, RReview.class);
 			// query.setParameter("userid", userid);
@@ -57,25 +66,24 @@ public class RestaurantDB {
 	}
 	
 	// get a list of all restaurants with their rating
-	public static List<RReview> getRestaurants() {
-		// System.out.println("getReviews: ");
-
+	public static List<Restaverage> getRestaurants() {
+		
 		EntityManager em = DBUtil.getEmFactory().createEntityManager();
-		List<RRestaurant> restaurants = null;
+		List<Restaverage> restaurants = null;
 
-		String qString = "select r from RRestaurant r";		
+		String qString = "select r from Restaverage r";		
 
 		try {
-			TypedQuery<RRestaurant> query = em.createQuery(qString, RRestaurant.class);
+			TypedQuery<Restaverage> query = em.createQuery(qString, Restaverage.class);
 			
-			reviews = query.getResultList();
+			restaurants = query.getResultList();
 
-			if (reviews == null) {
+			if (restaurants == null) {
 				System.out.println("getReviews: reviews list is null");
 			} else {
 				System.out.println("getReviews: Reviews");
-				for (RReview review : reviews) {
-					System.out.println(getReviewString(review));
+				for (Restaverage rest : restaurants) {
+					System.out.println(getRestaverageString(rest));
 				}
 			}
 
@@ -84,7 +92,7 @@ public class RestaurantDB {
 		} finally {
 			em.close();
 		}
-		return reviews;
+		return restaurants;
 	}
 
 }

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import customTools.RestaurantDB;
 import model.RReview;
+import model.Restaverage;
 
 /**
  * Servlet implementation class ShowRestaurantsServlet
@@ -40,18 +41,18 @@ public class RestaurantsServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		HttpSession session = request.getSession();	
 		//String name = request.getParameter("name");
 		//String type = request.getParameter("type");		
 		String nextURL;
-		List<RReview> reviews = null;		
-		
-		reviews = RestaurantDB.getReviews();
-				
-		session.setAttribute("reviews", reviews);		
+		List<Restaverage> restaurants = null;
 			
-		nextURL = "/showratings.jsp";
+		restaurants = RestaurantDB.getRestaurants();
+				
+		session.setAttribute("restaurants", restaurants);		
+			
+		nextURL = "/restaurants.jsp";
 				
 		request.getRequestDispatcher(nextURL).forward(request, response);
 		return;
